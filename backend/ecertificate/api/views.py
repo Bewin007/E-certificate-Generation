@@ -14,17 +14,38 @@ from .serializers import AdminSerializer, CertificateSerializer
 from .models import Admin,Certificate
 
 
-class Certificate_upload_api(APIView):
+from rest_framework import status
+
+class Admin_api(APIView):
     def get(self, request):
         data = Certificate.objects.all()
         serializer = CertificateSerializer(data, many=True)
-        print(serializer.data)
-        return JsonResponse(serializer.data, safe=False) 
+        return JsonResponse(serializer.data, safe=False)
 
-    def post(self,request):
-        seralizer = CertificateSerializer(data=request.data) 
-        if seralizer.is_valid():
-            seralizer.save()
-            return Response(seralizer.data)
-        else:
-            return Response(seralizer.errors)
+    def post(self, request):
+        serializer = CertificateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, pk):
+        try:
+            certificate = Certificate.objects.get(pk=pk)
+        except Certificate.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CertificateSerializer(certificate, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        try:
+            certificate = Certificate.objects.get(pk=pk)
+        except Certificate.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        certificate.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

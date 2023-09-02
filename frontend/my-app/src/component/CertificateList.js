@@ -6,9 +6,10 @@ function CertificateList() {
 
   useEffect(() => {
     // Make a GET request to your Django API
-    axios.get('http://localhost:8000/upload')
+    axios.get('http://localhost:8000/admin/')
       .then((response) => {
         setCertificates(response.data);
+        console.log(response)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -33,5 +34,7 @@ function CertificateList() {
     </div>
   );
 }
+
+
 
 export default CertificateList;
