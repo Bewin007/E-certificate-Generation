@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate Viewer</title>
+    <style>
+        /* Add some basic styling for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Certificate Viewer</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Registration Number</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Event Name</th>
+                <th>Certificate Link</th>
+            </tr>
+        </thead>
+        <tbody id="certificateList">
+            <!-- Certificate data will be displayed here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to make an AJAX request to fetch certificate data
+        function fetchCertificateData() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:8000/upload/', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var certificates = JSON.parse(xhr.responseText);
+                        console.log('Data fetched successfully:', certificates); // Log the fetched data
+                        displayCertificateData(certificates); // Display the data
+                    } else {
+                        console.log('Failed to fetch data. Status:', xhr.status);
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // Function to display certificate data
+        function displayCertificateData(certificates) {
+            var certificateList = document.getElementById('certificateList');
+            certificateList.innerHTML = ''; // Clear previous data
+
+            certificates.forEach(function (certificate) {
+                // Create a new row for each certificate
+                var row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${certificate.Reg_no}</td>
+                    <td>${certificate.name}</td>
+                    <td>${certificate.email}</td>
+                    <td>${certificate.event_name}</td>
+                    <td><a href="${certificate.file}" target="_blank">View Certificate</a></td>
+                `;
+                certificateList.appendChild(row);
+            });
+        }
+
+        // Call the fetchCertificateData function when the page loads
+        window.onload = fetchCertificateData;
+    </script>
+</body>
+</html>
