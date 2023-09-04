@@ -5,4 +5,3 @@ pyyaml
 requests
 django-cors-headers
 algoliasearch-django
-djangorestframework-jwt

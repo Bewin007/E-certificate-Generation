@@ -53,9 +53,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.BrokenLinkEmailsMiddleware',
     'django.contrib.auth.middleware.RemoteUserMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'ecertificate.urls'
@@ -87,6 +88,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
