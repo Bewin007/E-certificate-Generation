@@ -49,3 +49,21 @@ class Admin_api(APIView):
 
         certificate.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class User_api(APIView):
+    def post(self,request):
+        search_method = request.data.get('search_method')
+        data = request.data.get('value')
+        if search_method == 'email':
+            complex_data = Certificate.objects.filter(email = data)
+            serializer = CertificateSerializer(complex_data,many = True)
+            return Response(serializer.data)
+        
+        elif search_method == 'Register_number':
+            complex_data = Certificate.objects.filter(reg_no=data)
+            serializer = CertificateSerializer(complex_data,many = True)
+            return Response(serializer.data)
+
+        print(data)
+        return Response('Send a valid Search Method')

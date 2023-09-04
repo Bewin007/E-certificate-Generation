@@ -8,7 +8,7 @@ class Admin(models.Model):
     name = models.CharField(max_length=100)
 
 class Certificate(models.Model):
-    Reg_no = models.CharField(max_length=11)
+    reg_no = models.CharField(max_length=11)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     event_name = models.CharField(max_length=100)
