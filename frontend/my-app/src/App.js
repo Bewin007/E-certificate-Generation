@@ -26,7 +26,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <BrowserRouter>
       <Routes>
-          <Route path="certificate" element={<Certificate />} />   {/* view for user */}
+          <Route index element={<Certificate />} />   {/* view for user */}
            <Route path="list" element={<OrganizationForm />}  />   {/* add organization */}
           <Route path="create" element={<AdminForm />} /> {/* create certificate */}
           <Route path="view" element={<Viewcertificate />} />

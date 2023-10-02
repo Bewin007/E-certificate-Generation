@@ -22,9 +22,6 @@ class Certificate(models.Model):
     summary_event = models.CharField(max_length=200,default='')
     file = models.FileField(upload_to='uploads/')
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-
     def __str__(self):
         return self.reg_no
-
-
-
+    

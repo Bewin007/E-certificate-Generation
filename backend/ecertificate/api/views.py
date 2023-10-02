@@ -103,4 +103,3 @@ class Create_admin(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
-    

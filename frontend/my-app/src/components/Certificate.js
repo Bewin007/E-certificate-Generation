@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Input,
-  Select,
-  Stack,
-  Text,
-  Alert,
-  AlertIcon,Image
-} from '@chakra-ui/react';
+import { Box, Button, Input, Select, Stack, Text, Alert, HStack, AlertIcon,Image, SimpleGrid } from '@chakra-ui/react';
 import axios from 'axios';
 import { Navigate, useNavigate } from 'react-router-dom';
 
@@ -77,58 +68,95 @@ function Certificate() {
 
   // console.log(logo)
   return (
-    <Box p={4}>
-      <Stack spacing={4} align="center">
-        {error && (
-          <Alert status="error">
-            <AlertIcon />
-            {error}
-          </Alert>
-        )}
-        <Input
-          type="text"
-          placeholder="Search data"
-          value={searchData}
-          onChange={(e) => setSearchData(e.target.value)}
-        />
-        <Select
-          value={searchMethod}
-          onChange={(e) => setSearchMethod(e.target.value)}
-        >
-          <option value="email">Email</option>
-          <option value="reg_no">Registration Number</option>
-        </Select>
-        <Button colorScheme="teal" onClick={handleSearch}>
-          Search
-        </Button>
-        <Box>
-          {certificates.map((certificate) => (
-            <Box
-              key={certificate.id}
-              borderWidth="1px"
-              p={2}
-              rounded="md"
-              boxShadow="base"
-            >
-              <Text>Email: {certificate.email}</Text>
-              <Text>Registration Number: {certificate.reg_no}</Text>
-              <Text>Event Name: {certificate.event_name}</Text>
-              <Text>Organization Name: {certificate.organization.name}</Text>
-              <Text>Summary of Event: {certificate.summary_event}</Text>
-              <Text>Participant Name: {certificate.name}</Text>
-              <Image src={`${domain}${certificate.organization.logo}`} alt="Organization Logo" />
-              {/* Add more fields as needed */}
-            <Button  onClick={() => handleViewButtonClick(certificate)} >View</Button>
-            <Button  onClick={() => handleDownload(certificate)} >Download</Button>
-            </Box>
-          ))}
-          
-        </Box>
-            
-      </Stack>
+<Box p={4}>
+  <Stack spacing={4}>
+    {error && (
+      <Alert status="error">
+        <AlertIcon />
+        {error}
+      </Alert>
+    )}
+   <HStack spacing={4}>
+      <Input
+        flex="1" // Take up available space
+        type="text"
+        placeholder="Search data"
+        value={searchData}
+        onChange={(e) => setSearchData(e.target.value)}
+      />
+      <Select
+        flex="1" // Take up available space
+        border="1px"
+        value={searchMethod}
+        onChange={(e) => setSearchMethod(e.target.value)}
+      >
+        <option value="email">Email</option>
+        <option value="reg_no">Registration Number</option>
+      </Select>
+      <Button colorScheme="teal" onClick={handleSearch}>
+        Search
+      </Button>
+    </HStack>
 
-    </Box>
+    <SimpleGrid
+      columns={{ base: 1, sm: 2, md: 3, lg: 4 }} // Adjust the number of columns for different screen sizes
+      spacing={4}
+    >
+      {certificates.map((certificate) => (
+        <Box
+          key={certificate.id}
+          borderWidth="1px"
+          p={3}
+          border={'1px'}
+          rounded="md"
+          boxShadow="dark-lg"
+          backgroundColor={'aliceblue'}
+          bgGradient={[
+            'linear(to-tr, teal.300, yellow.400)',
+            'linear(to-t, blue.200, teal.500)',
+            'linear(to-b, orange.100, purple.300)',
+          ]}
+        >
+          <Image
+            maxW="100%"
+            height={200}
+            padding={0}
+            align={'center'}
+            src={`${domain}${certificate.organization.logo}`}
+            alt="Organization Logo"
+          />
+          <Text fontStyle={'italic'} text fontSize={30} textAlign={'center'}>
+            {certificate.event_name}
+          </Text>
+          <Text fontSize={20}>Summary of Event: {certificate.summary_event}</Text>
+
+          <Text fontWeight={'semibold'}>Email: {certificate.email}</Text>
+          <Text>Registration Number: {certificate.reg_no}</Text>
+
+          <Text>Organization Name: {certificate.organization.name}</Text>
+          <Text>Participant Name: {certificate.name}</Text>
+
+          {/* Add more fields as needed */}
+          <Button
+            marginTop={2}
+            marginRight={25}
+            marginLeft={20}
+            float={'left'}
+            color={'white'}
+            background={'ActiveBorder'}
+            onClick={() => handleViewButtonClick(certificate)}
+          >
+            View
+          </Button>
+          <Button marginTop={2} onClick={() => handleDownload(certificate)}>
+            Download
+          </Button>
+        </Box>
+      ))}
+    </SimpleGrid>
+  </Stack>
+</Box>
+
   );
 }
-
 export default Certificate;
